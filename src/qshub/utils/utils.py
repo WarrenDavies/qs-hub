@@ -4,11 +4,11 @@ import os
 from pathlib import Path
 
 
-def yaml_to_dict(path):
+def load_yaml(path):
     path = Path(path)
-    with path.open('r') as stream:
-        dict_ = yaml.safe_load(stream)
-    return dict_
+    with open(str(path), 'r') as file:
+        loaded_yaml = yaml.safe_load(file)
+    return loaded_yaml
 
 
 def get_yaml_files_in_dir(path = "./configs/pipelines"):

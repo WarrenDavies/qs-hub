@@ -1,0 +1,5 @@
+function_name: "ingest_local_file"
+runs:
+  - name: "example"
+    source_path: "./data/source/example.csv"
+    destination_path: "./data/bronze/example/"
