@@ -1,0 +1,3 @@
+data_connection:
+  output_data_type: "sqlite3"
+  data_source_location: "./data/qshub_db.sqlite"

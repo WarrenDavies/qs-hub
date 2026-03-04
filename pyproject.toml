@@ -1,5 +1,5 @@
 [project]
-name = "qs-hub"
+name = "qshub"
 version = "0.1.0"
 description = ""
 authors = [{name = "Warren Davies"}]
@@ -8,7 +8,10 @@ repository = "https://github.com/WarrenDavies/qs-hub/"
 readme = "README.md"
 requires-python = ">=3.10,<3.15"
 dependencies = [
-    "jenerationutils @ file:///home/w/repos/jeneration-utils"
+    "jenerationutils @ file:///home/w/repos/jeneration-utils",
+    "pyyaml (>=6.0.3,<7.0.0)",
+    "pathlib (>=1.0.1,<2.0.0)",
+    "python-dotenv (>=1.2.2,<2.0.0)"
 ]
 packages = [{include = "qshub", from = "src"}]
 
