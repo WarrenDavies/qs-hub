@@ -8,7 +8,7 @@ def get_ts():
     return ts
 
 
-def collect_local_file(source_path, destination_path):
+def ingest_local_file(source_path, destination_path):
     source_path = Path(source_path)
     destination_path = Path(destination_path)
     new_filename = f"{source_path.stem}_{get_ts()}{source_path.suffix}"
