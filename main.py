@@ -55,11 +55,11 @@ for run in bronze_to_silver_config["runs"]:
         if storage.exists(run["destination_path"]):
             df_silver_data = storage.read(run["destination_path"])
             df_new_rows = pipeline.get_new_rows(df_transformed, df_silver_data)
-            df_new_rows["ingest_ts"] = ingest_ts
-            df_new_rows["source_file"] = file
             df_new_rows = pd.concat([df_silver_data, df_new_rows], ignore_index=True)
         else:
             df_new_rows = df_transformed
+        df_new_rows["ingest_ts"] = ingest_ts
+        df_new_rows["source_file"] = file       
         storage.write(run["destination_path"], df_new_rows)
 
         new_processing_log = {
