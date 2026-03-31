@@ -86,8 +86,8 @@ class StorageManager():
     def get_files_to_process_by_filename(self, path, df_processed_log):
 
         path = Path(path)
-        files = path.iterdir()
 
+        files = [item for item in path.iterdir() if item.is_file()]
         processed_files = set(df_processed_log["filename"])
 
         files_to_process = []
