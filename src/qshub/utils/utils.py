@@ -1,5 +1,6 @@
 import yaml
 import os
+import hashlib
 
 from pathlib import Path
 
@@ -15,3 +16,13 @@ def get_yaml_files_in_dir(path = "./configs/pipelines"):
     path = Path(path)
     yaml_files = list(path.glob('*.yaml')) + list(path.glob('*.yml'))
     return yaml_files
+
+
+def get_file_hash(path):
+    hasher = hashlib.sha256()
+
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            hasher.update(chunk)
+
+    return hasher.hexdigest()
