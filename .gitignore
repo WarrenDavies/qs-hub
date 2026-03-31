@@ -1,8 +1,19 @@
+data/bronze/*
+!data/bronze/.gitkeep
+data/silver/*
+!data/silver/.gitkeep
+data/gold/*
+!data/gold/.gitkeep
+data/source/*
+!data/source/.gitkeep
+!data/source/example.csv
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
 *$py.class
-
+/.vscode/
 # C extensions
 *.so
 
