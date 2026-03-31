@@ -1,0 +1,4 @@
+runs:
+  - name: "example"
+    source_path: "./data/bronze/example/example_20260331_1148.csv"
+    destination_path: "./data/silver/example/example.csv"
