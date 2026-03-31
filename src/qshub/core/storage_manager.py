@@ -1,4 +1,5 @@
 from pathlib import Path
+import hashlib
 
 import pandas as pd
 import os
@@ -59,3 +60,39 @@ class StorageManager():
 
     def exists(self, path):
         return os.path.exists(path)
+
+
+    def get_files_in_dir(self, path):
+
+        files = list(path.glob('*.yaml')) + list(path.glob('*.yml'))
+        return yaml_files
+
+
+    @staticmethod
+    def get_checksum(path, algorithm='sha256'):
+        with open(path, 'rb') as file:
+            hash_obj = hashlib.new(algorithm)
+            for chunk in iter(lambda: file.read(4096), b''):
+                hash_obj.update(chunk)
+            return hash_obj.hexdigest()
+
+
+    @staticmethod
+    def checksum_exists(checksum, df_processed_log):
+        checksums_of_processed_files = list(df_processed_log["checksum"])
+        return checksum in checksums_of_processed_files
+
+
+    def get_files_to_process_by_filename(self, path, df_processed_log):
+
+        path = Path(path)
+        files = path.iterdir()
+
+        processed_files = set(df_processed_log["filename"])
+
+        files_to_process = []
+        for file in files:
+            if file.name not in processed_files:
+                files_to_process.append(file)
+
+        return files_to_process
