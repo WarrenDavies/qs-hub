@@ -49,15 +49,20 @@ for run in bronze_to_silver_config["runs"]:
         print("   IMPORTING")
         pipeline = pipeline_registry[run["name"]]
         df_input = storage.read(file)
-        df_transformed = pipeline.run(df_input)
+        df_input = tf.add_hash_col(df_input)
         
-        df_transformed = tf.add_hash_col(df_transformed)
         if storage.exists(run["destination_path"]):
             df_silver_data = storage.read(run["destination_path"])
-            df_new_rows = pipeline.get_new_rows(df_transformed, df_silver_data)
+            df_silver_latest = (
+                df_silver_data
+                .sort_values("ingest_ts")
+                .drop_duplicates(subset=[config["row_id_col_name"]], keep="last")
+            )
+            df_new_rows = pipeline.get_new_rows(df_input, df_silver_latest)
+            df_new_rows = pipeline.run(df_new_rows)
             df_new_rows = pd.concat([df_silver_data, df_new_rows], ignore_index=True)
         else:
-            df_new_rows = df_transformed
+            df_new_rows = pipeline.run(df_input)
         df_new_rows["ingest_ts"] = ingest_ts
         df_new_rows["source_file"] = file       
         storage.write(run["destination_path"], df_new_rows)
