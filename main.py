@@ -10,6 +10,7 @@ from qshub.transforms import functions as tf
 
 from pipelines.registry import pipeline_registry
 
+
 ### STORAGE
 storage = StorageManager()
 
@@ -74,3 +75,17 @@ for run in bronze_to_silver_config["runs"]:
         }
         df_processed_log = pd.concat([df_processed_log, pd.DataFrame([new_processing_log])], ignore_index=True)
         storage.write(processed_log_path, df_processed_log)
+
+
+### SILVER TO GOLD
+silver_to_gold_config = utils.load_yaml("./configs/pipelines/silver-to-gold.yaml")
+
+for run in silver_to_gold_config["runs"]:
+    print("processing", run)
+    ingest_ts = datetime.datetime.now().isoformat()
+    
+    pipeline = pipeline_registry[run["name"]]
+    df_silver = storage.read(run["source_path"])
+    df_gold = pipeline.run(df_silver)
+   
+    storage.write(run["destination_path"], df_gold)
