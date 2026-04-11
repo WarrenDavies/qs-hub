@@ -3,9 +3,11 @@ from qshub.transforms.transform import Transform
 from qshub.transforms import functions as tf
 
 COL_NAME_MAP = {
-    "DATE": "date"
+    "DATETIME": "datetime"
 }
 
 example_pipeline = BronzeToSilverPipeline([
-    Transform(tf.rename_cols, {"col_name_map": COL_NAME_MAP}, "rename_cols")
+    Transform(tf.rename_cols, {"col_name_map": COL_NAME_MAP}, "rename_cols"),
+    Transform(tf.to_datetime, {"datetime_col": "datetime"}, "to_datetime"),
+    Transform(tf.split_datetime, {"datetime_col": "datetime"}, "split_datetime"),
 ])

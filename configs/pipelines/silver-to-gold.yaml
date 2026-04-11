@@ -1,0 +1,7 @@
+runs:
+  - name: "example_to_gold_events"
+    source_path: "./data/silver/example/example.csv"
+    destination_path: "./data/gold/example/example_events.csv"
+  - name: "example_to_gold_daily"
+    source_path: "./data/silver/example/example.csv"
+    destination_path: "./data/gold/example/example_daily.csv"
