@@ -3,3 +3,4 @@ runs:
     source_path: "./data/bronze/example/"
     destination_path: "./data/silver/example/example.csv"
     processed_files_log: "./data/bronze/processed_files.csv"
+    row_id_col_name: "datetime"

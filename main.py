@@ -57,7 +57,7 @@ for run in bronze_to_silver_config["runs"]:
             df_silver_latest = (
                 df_silver_data
                 .sort_values("ingest_ts")
-                .drop_duplicates(subset=[config["row_id_col_name"]], keep="last")
+                .drop_duplicates(subset=[run["row_id_col_name"]], keep="last")
             )
             df_new_rows = pipeline.get_new_rows(df_input, df_silver_latest)
             df_new_rows = pipeline.run(df_new_rows)
@@ -85,7 +85,6 @@ for run in silver_to_gold_config["runs"]:
     
     pipeline = pipeline_registry[run["name"]]
     df_silver = storage.read(run["source_path"])
-    df_silver = pipeline.get_latest_rows(df_silver, key_cols=["date"], sort_col="ingest_ts")
+    df_silver = pipeline.get_latest_rows(df_silver, key_cols=["datetime"], sort_col="ingest_ts")
     df_gold = pipeline.run(df_silver)
-   
     storage.write(run["destination_path"], df_gold)
