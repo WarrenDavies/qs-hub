@@ -82,10 +82,10 @@ silver_to_gold_config = utils.load_yaml("./configs/pipelines/silver-to-gold.yaml
 
 for run in silver_to_gold_config["runs"]:
     print("processing", run)
-    ingest_ts = datetime.datetime.now().isoformat()
     
     pipeline = pipeline_registry[run["name"]]
     df_silver = storage.read(run["source_path"])
+    df_silver = pipeline.get_latest_rows(df_silver, key_cols=["date"], sort_col="ingest_ts")
     df_gold = pipeline.run(df_silver)
    
     storage.write(run["destination_path"], df_gold)

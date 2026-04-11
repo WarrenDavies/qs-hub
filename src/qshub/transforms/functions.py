@@ -22,6 +22,6 @@ def add_hash_col(df):
 
 def drop_cols(df_input, cols_to_drop):
     df_output = df_input.copy()
-    df_output = df_output.rename(columns=cols_to_drop)
+    df_output = df_output.drop(columns=cols_to_drop)
 
     return df_output  

@@ -5,5 +5,5 @@ from qshub.transforms import functions as tf
 
 
 example_to_gold_events = SilverToGoldPipeline([
-    Transform(tf.drop_cols, ["row_hash", "ingest_ts", "source_file"])
+    Transform(tf.drop_cols, {"cols_to_drop": ["row_hash", "ingest_ts", "source_file"]}, "drop_cols")
 ])
